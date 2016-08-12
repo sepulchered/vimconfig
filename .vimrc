@@ -1,34 +1,43 @@
-execute pathogen#infect()
-set history=500
-filetype plugin on
-let mapleader = ","
-let g:mapleader = ","
-set bg=dark
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set smarttab
+" Basic stuff
+set number
 set autoindent
-set smartindent
-set wrap
-syntax on
-set ignorecase
-set smartcase
-set hlsearch
+set expandtab
 set showmatch
-set encoding=utf8
-set lbr
-set tw=150
-set ruler
-set laststatus=2
-colorscheme monokai
-let g:miniBufExplMapCTabSwitchBufs=1
+set textwidth=120
+set foldmethod=indent
+set foldlevel=99
+set noswapfile
+syntax enable
+filetype plugin indent on
 
-nmap <leader>w :w!<cr>
-nmap <leader>q :wq<cr>
+autocmd BufWritePre *.py,*.js,*.coffee,*.sass,*.css,*.html,*.md %s/\s\+$//e
+
+" Silver Searcher (make sure it's installed!)
+set grepprg=ag\ --nogroup\ --nocolor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" Plugins install stuff
+call plug#begin('~/.vim/plugged')
+Plug 'altercation/vim-colors-solarized'
+Plug 'vim-airline/vim-airline'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'kchmck/vim-coffee-script'
+Plug 'pangloss/vim-javascript'
+Plug 'vim-scripts/vim-emblem'
+call plug#end()
+
+" Plugins config stuff
+" colorscheme
+set background=dark
+colorscheme solarized
+
+" ctrlp config
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_use_caching = 0
+
+" nerdtree config
 map <C-n> :NERDTreeToggle<CR>
-
-autocmd FileType html setlocal shiftwidth=2 tabstop=2
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
-autocmd FileType css setlocal shiftwidth=2 tabstop=2
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
